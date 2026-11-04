@@ -49,3 +49,35 @@ class HashTable:
 
     def __contains__(self, key):
         return self.contains(key)
+
+    def keys(self):
+            all_keys = []
+            for bucket in self.buckets:
+                current = bucket.head
+                while current is not None:
+                    k, v = current.value
+                    all_keys.append(k)
+                    current = current.next
+    
+            return all_keys
+
+    def values(self):
+        all_values = []
+        for bucket in self.buckets:
+            current = bucket.head
+            while current is not None:
+                k, v = current.value
+                all_values.append(v)
+                current = current.next
+
+        return all_values
+
+    def items(self):
+        all_items = []
+        for bucket in self.buckets:
+            current = bucket.head
+            while current is not None:
+                all_items.append(current.values)
+                current = current.next
+
+        return all_items
