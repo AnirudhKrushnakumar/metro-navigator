@@ -14,3 +14,28 @@ class HashTable:
 
     def is_empty(self):
         return self._size == 0
+
+    def put(self, key, value):
+        index = self._hash(key)
+        bucket = self.buckets[index]
+        current = bucket.head
+
+        while current is not None:
+            k, v = current.value
+            if k == key:
+                current.value = (key, value)
+                return
+            current = current.next
+
+    def get(self, key):
+        index = self._hash(key)
+        bucket = self.buckets[index]
+        current = bucket.head
+
+        while current is not None:
+            k, v = current.value
+            if k == key:
+                return v
+            current = current.next
+
+        raise KeyError(f"Key not found: {key}")
