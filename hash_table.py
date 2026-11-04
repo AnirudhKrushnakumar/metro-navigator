@@ -1,7 +1,7 @@
 from linked_list import LinkedList
 
 class HashTable:
-    def __init__(self, capacity=10):
+    def __init__(self, capacity=8):
         self.capacity = capacity
         self._size = 0
         self.buckets = [LinkedList() for _ in range(capacity)]
@@ -39,3 +39,13 @@ class HashTable:
             current = current.next
 
         raise KeyError(f"Key not found: {key}")
+
+    def contains(self, key):
+        try:
+            self.get(key)
+            return True
+        except KeyError:
+            return False
+
+    def __contains__(self, key):
+        return self.contains(key)
