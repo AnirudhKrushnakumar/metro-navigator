@@ -78,3 +78,48 @@ class BST:
 
     def __getitem__(self, key):
         return self.get(key)
+
+    def inorder(self):
+        result = []
+        def _traverse(node):
+            if node is not None:
+                _traverse(node.left)
+                result.append((node.key, node.value))
+                _traverse(node.right)
+        _traverse(self.root)
+        return result
+
+    def preorder(self):
+        result = []
+        def _traverse(node):
+            if node is not None:
+                result.append((node.key, node.value))
+                _traverse(node.left)
+                _traverse(node.right)
+        _traverse(self.root)
+        return result
+
+    def postorder(self):
+        result = []
+        def _traverse(node):
+            if node is not None:
+                _traverse(node.left)
+                _traverse(node.right)
+                result.append((node.key, node.value))
+        _traverse(self.root)
+        return result
+
+    def level_order(self):
+        if self.root is None:
+            return []
+
+        result = []
+        queue = [self.root]
+        while queue:
+            current = queue.pop(0)
+            result.append((current.key, current.value))
+            if current.left is not None:
+                queue.append(current.left)
+            if current.right is not None:
+                queue.append(current.right)
+        return result
