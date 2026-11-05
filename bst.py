@@ -45,3 +45,36 @@ class BST:
                     self._size += 1
                     return
                 current = current.right
+
+    def contains(self, key):
+        self._validate_key(key)
+        current = self.root
+        while current is not None:
+            if key == current.key:
+                return True
+            elif key < current.key:
+                current = current.left
+            else:
+                current = current.right
+        return False
+
+    def __contains__(self, key):
+        return self.contains(key)
+
+    def get(self, key, default=None):
+        self._validate_key(key)
+        current = self.root
+        while current is not None:
+            if key == current.key:
+                return True
+            elif key < current.key:
+                current = current.left
+            else:
+                current = current.right
+
+        if default is not None:
+            return default
+        raise KeyError(f"Key not found: {key}")
+
+    def __getitem__(self, key):
+        return self.get(key)
