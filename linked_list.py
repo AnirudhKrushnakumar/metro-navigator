@@ -17,14 +17,12 @@ class LinkedList:
 
     def append(self, value):
         new_node = Node(value)
-
-        if self.is_empty():
+        if self.head is None:
             self.head = new_node
             self.tail = new_node
         else:
             self.tail.next = new_node
             self.tail = new_node
-
         self._size += 1
     
     def prepend(self, value):

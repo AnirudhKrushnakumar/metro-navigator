@@ -83,7 +83,6 @@ class HashTable:
                     if current.next is None:
                         bucket.tail = prev
 
-                bucket._size -= 1
                 self._size -= 1
                 return v
 
@@ -94,7 +93,15 @@ class HashTable:
 
     def contains(self, key):
         self._validate_key(key)
-        return self.get(key, default=None) is not None or key in self.keys()
+        index = self._hash(key)
+        bucket = self.buckets[index]
+        current = bucket.head
+        while current is not None:
+            k, v = current.value
+            if k == key:
+                return True
+            current = current.next
+        return False
 
     def keys(self):
         all_keys = []
@@ -136,3 +143,8 @@ class HashTable:
         if val is None and key not in self.keys():
             raise KeyError(f"Key not found: {key}")
         return val
+
+    def clear(self):
+        self.capacity = 8
+        self._size = 0
+        self.buckets = [LinkedList() for _ in range(self.capacity)]
