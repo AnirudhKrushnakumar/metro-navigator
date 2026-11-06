@@ -1,6 +1,7 @@
 from graph import Graph
 from bst import BST
 from hash_table import HashTable
+from linked_list import LinkedList
 
 stations = ["Downtown", "Beach", "Factory", "Airport", "Campus", "Eastside", "Garden"]
 
@@ -25,6 +26,8 @@ fare_zones = [
     ("Factory", 2),
     ("Garden", 3),
 ]
+
+trip_stops = ["Airport", "Downtown", "Campus", "Beach"]
 
 def print_section(title):
     print()
@@ -52,10 +55,21 @@ def build_fare_table():
         fares.put(station, zone)
     return fares
 
+def build_trip_log():
+    trip_log = LinkedList()
+    for stop in trip_stops:
+        trip_log.append(stop)
+    return trip_log
+
+
+
+
+
 def main():
     graph = build_metro_graph()
     directory = build_station_directory()
     fares = build_fare_table()
+    trip_log = build_trip_log()
 
     print_section("1. Metro City Map (Unweighted Graph)")
     print(graph)
@@ -71,6 +85,11 @@ def main():
     for station in directory.inorder():
         print(f"{station:<10} -> Zone {fares.get(station)}")
     print(f"Stations in fare table: {len(fares)}")
+
+    print_section("4. Trip Log (LinkedList)")
+    print(f"Forward:    {trip_log}")
+    trip_log.reverse()
+    print(f"Reversed:   {trip_log}")
 
 
 
