@@ -1,4 +1,5 @@
 from graph import Graph
+from bst import BST
 
 stations = ["Downtown", "Beach", "Factory", "Airport", "Campus", "Eastside", "Garden"]
 
@@ -28,12 +29,25 @@ def build_metro_graph():
         graph.add_edge(station_a, station_b)
     return graph
 
+def build_station_directory():
+    directory = BST()
+    for station in stations:
+        directory.insert(station)
+    return directory
+
 def main():
     graph = build_metro_graph()
+    directory = build_station_directory()
 
     print_section("1. Metro City Map (Unweighted Graph)")
     print(graph)
     print(f"Stations: {graph.vertex_count()}    Connections: {graph.edge_count()}")
+
+    print_section("2. Station Directory (BST)")
+    print(f"Alphabetical (inorder): {directory.inorder()}")
+    print(f"Level by level:         {directory.level_order()}")
+    print(f"Preorder:               {directory.preorder()}")
+    print(f"Height: {directory.height()}  Leaves: {directory.count_leaves()}")
 
 
 

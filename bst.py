@@ -20,7 +20,7 @@ class BST:
         if not isinstance(key, (int, str)):
             raise TypeError(f"Key must be int or string, got {type(key).__name__}")
 
-    def insert(self, key, value):
+    def insert(self, key, value=None):
         self._validate_key(key)
 
         if self.root is None:
