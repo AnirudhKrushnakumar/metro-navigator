@@ -121,7 +121,7 @@ class LinkedList:
 
     def insert_at(self, index, value):
         if index < 0 or index > self._size:
-            raise IndexError("Index out of bounds")\
+            raise IndexError("Index out of bounds")
 
         if index == 0:
             self.prepend(value)

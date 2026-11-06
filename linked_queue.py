@@ -2,35 +2,34 @@ from linked_list import LinkedList
 
 class Queue:
     def __init__(self):
-        self.list = LinkedList()
-        self._list = self.list
+        self._list = LinkedList()
 
     def __len__(self):
-        return len(self.list)
+        return len(self._list)
 
     def is_empty(self):
-        return self.list.is_empty()
+        return self._list.is_empty()
 
     def clear(self):
-        self.list.clear()
+        self._list.clear()
 
     def to_list(self):
-        return self.list.to_list()
+        return self._list.to_list()
 
     def enqueue(self, item):
-        self.list.append(item)
+        self._list.append(item)
 
     def dequeue(self):
         if self.is_empty():
             raise IndexError("Dequeue from empty queue")
-        item = self.list.head.value
-        self.list.remove_at(0)
+        item = self._list.head.value
+        self._list.remove_at(0)
         return item
 
     def peek(self):
         if self.is_empty():
             raise IndexError("Peek from empty queue")
-        return self.list.head.value
+        return self._list.head.value
 
 def board_passengers(names, seats_available):
     if not isinstance(seats_available, int) or isinstance(seats_available, bool):

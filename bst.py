@@ -61,7 +61,7 @@ class BST:
     def __contains__(self, key):
         return self.contains(key)
 
-    def get(self, key, default=None):
+    def get(self, key):
         self._validate_key(key)
         current = self.root
         while current is not None:
@@ -72,8 +72,6 @@ class BST:
             else:
                 current = current.right
 
-        if default is not None:
-            return default
         raise KeyError(f"Key not found: {key}")
 
     def __getitem__(self, key):

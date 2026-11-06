@@ -1,10 +1,14 @@
-from linked_list import LinkedList
+class Entry:
+    def __init__(self, key, value, next_entry=None):
+        self.key = key
+        self.value = value
+        self.next = next_entry
 
 class HashTable:
     def __init__(self, capacity=8):
         self.capacity = capacity
         self._size = 0
-        self.buckets = [LinkedList() for _ in range(capacity)]
+        self.buckets = [None] * capacity
 
     def _validate_key(self, key):
         if not isinstance(key, str):
@@ -12,7 +16,10 @@ class HashTable:
 
     def _hash(self, key):
         self._validate_key(key)
-        return abs(hash(key)) % self.capacity
+        total = 0
+        for char in key:
+            total = (total * 31 + ord(char)) % self.capacity
+        return total
 
     def __len__(self):
         return self._size
@@ -26,7 +33,7 @@ class HashTable:
     def _resize(self):
         old_items = self.items()
         self.capacity *= 2
-        self.buckets = [LinkedList() for _ in range(self.capacity)]
+        self.buckets = [None] * self.capacity
         self._size = 0
 
         for k, v in old_items:
@@ -35,17 +42,15 @@ class HashTable:
     def put(self, key, value):
         self._validate_key(key)
         index = self._hash(key)
-        bucket = self.buckets[index]
-        current = bucket.head
+        current = self.buckets[index]
 
         while current is not None:
-            k, v = current.value
-            if k == key:
-                current.value = (key, value)
+            if current.key == key:
+                current.value = value
                 return
             current = current.next
 
-        bucket.append((key, value))
+        self.buckets[index] = Entry(key, value, self.buckets[index])
         self._size += 1
         if self.load_factor() > 0.75:
             self._resize()
@@ -53,13 +58,11 @@ class HashTable:
     def get(self, key, default=None):
         self._validate_key(key)
         index = self._hash(key)
-        bucket = self.buckets[index]
-        current = bucket.head
+        current = self.buckets[index]
 
         while current is not None:
-            k, v = current.value
-            if k == key:
-                return v
+            if current.key == key:
+                return current.value
             current = current.next
 
         return default
@@ -67,24 +70,18 @@ class HashTable:
     def remove(self, key):
         self._validate_key(key)
         index = self._hash(key)
-        bucket = self.buckets[index]
-        current = bucket.head
+        current = self.buckets[index]
         prev = None
 
         while current is not None:
-            k, v = current.value
-            if k == key:
+            if current.key == key:
                 if prev is None:
-                    bucket.head = current.next
-                    if bucket.head is None:
-                        bucket.tail = None
+                    self.buckets[index] = current.next
                 else:
                     prev.next = current.next
-                    if current.next is None:
-                        bucket.tail = prev
 
                 self._size -= 1
-                return v
+                return current.value
 
             prev = current
             current = current.next
@@ -94,11 +91,9 @@ class HashTable:
     def contains(self, key):
         self._validate_key(key)
         index = self._hash(key)
-        bucket = self.buckets[index]
-        current = bucket.head
+        current = self.buckets[index]
         while current is not None:
-            k, v = current.value
-            if k == key:
+            if current.key == key:
                 return True
             current = current.next
         return False
@@ -106,29 +101,27 @@ class HashTable:
     def keys(self):
         all_keys = []
         for bucket in self.buckets:
-            current = bucket.head
+            current = bucket
             while current is not None:
-                k, v = current.value
-                all_keys.append(k)
+                all_keys.append(current.key)
                 current = current.next
         return all_keys
 
     def values(self):
         all_values = []
         for bucket in self.buckets:
-            current = bucket.head
+            current = bucket
             while current is not None:
-                k, v = current.value
-                all_values.append(v)
+                all_values.append(current.value)
                 current = current.next
         return all_values
 
     def items(self):
         all_items = []
         for bucket in self.buckets:
-            current = bucket.head
+            current = bucket
             while current is not None:
-                all_items.append(current.value)
+                all_items.append((current.key, current.value))
                 current = current.next
         return all_items
 
@@ -147,4 +140,4 @@ class HashTable:
     def clear(self):
         self.capacity = 8
         self._size = 0
-        self.buckets = [LinkedList() for _ in range(self.capacity)]
+        self.buckets = [None] * self.capacity

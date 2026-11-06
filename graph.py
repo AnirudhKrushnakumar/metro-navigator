@@ -82,11 +82,12 @@ class Graph:
     def remove_vertex(self, name):
         if not self.has_vertex(name):
             return False
-        for other in self._adj.keys():
-            if other == name:
-                continue
+        for other in self.neighbors(name):
             self.remove_edge(name, other)
-            self.remove_edge(other, name)
+        if self.directed:
+            for other in self._adj.keys():
+                if self.has_edge(other, name):
+                    self.remove_edge(other, name)
         self._adj.remove(name)
         return True
 
