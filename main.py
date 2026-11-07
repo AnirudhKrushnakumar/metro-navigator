@@ -43,6 +43,7 @@ trip_stops = ["Airport", "Downtown", "Campus", "Beach"]
 
 
 def print_section(title):
+    """Print a banner with the section title."""
     print()
     print("=-=" * 17)
     print(title)
@@ -50,6 +51,7 @@ def print_section(title):
 
 
 def build_metro_graph():
+    """Return the unweighted Metro City graph with all stations and connections."""
     graph = Graph()
     for station in stations:
         graph.add_vertex(station)
@@ -59,6 +61,7 @@ def build_metro_graph():
 
 
 def build_station_directory():
+    """Return a BST holding every station name."""
     directory = BST()
     for station in stations:
         directory.insert(station)
@@ -66,6 +69,7 @@ def build_station_directory():
 
 
 def build_fare_table():
+    """Return a HashTable that maps each station to its fare zone."""
     fares = HashTable()
     for station, zone in fare_zones:
         fares.put(station, zone)
@@ -73,6 +77,7 @@ def build_fare_table():
 
 
 def build_trip_log():
+    """Return a LinkedList of the trip stops in the order they were visited."""
     trip_log = LinkedList()
     for stop in trip_stops:
         trip_log.append(stop)
@@ -80,6 +85,7 @@ def build_trip_log():
 
 
 def build_task_heap():
+    """Return a MinHeap of maintenance tasks keyed by numeric priority."""
     tasks = MinHeap()
     for priority, task in maintenance_tasks:
         tasks.push(priority, task)
@@ -87,6 +93,7 @@ def build_task_heap():
 
 
 def build_back_history():
+    """Return a Stack holding the stations a rider has visited."""
     history = Stack()
     for stop in trip_stops:
         history.push(stop)
@@ -94,6 +101,7 @@ def build_back_history():
 
 
 def build_ticket_line():
+    """Return a Queue of riders waiting in the ticket line."""
     line = Queue()
     for rider in ticket_line:
         line.enqueue(rider)
@@ -101,6 +109,7 @@ def build_ticket_line():
 
 
 def neighbor_set(graph, station):
+    """Return a HashSet of the stations directly connected to station."""
     stops = HashSet()
     for neighbor in graph.neighbors(station):
         stops.add(neighbor)
@@ -108,6 +117,7 @@ def neighbor_set(graph, station):
 
 
 def main():
+    """Run every Metro City demonstration and print labeled results."""
     graph = build_metro_graph()
     directory = build_station_directory()
     fares = build_fare_table()
@@ -182,6 +192,15 @@ def main():
     print(f"10 seats for {riders}: boarded {boarded}, waiting {waiting_riders}")
     eliminated, winner = hot_potato(["A", "B", "C", "D", "E"], 3)
     print(f"Counting out every 3rd of A-E: eliminated {eliminated}, winner {winner}")
+
+    # Guide Version
+    # 1. Delete everything in this section from the riders line down to the line above.
+    # 2. Uncomment the four lines below.
+    # 3. Change the top import to: from linked_queue import Queue, board_passengers
+    # eliminated, winner = board_passengers(["A", "B", "C", "D", "E"], 3)
+    # print(f"Counting out every 3rd of A-E: eliminated {eliminated}, winner {winner}")
+    # eliminated, winner = board_passengers(["A", "B", "C"], 10)
+    # print(f"Counting out every 10th of A-C: eliminated {eliminated}, winner {winner}")
 
     print_section("11. FIFO vs LIFO (Queue vs Stack on Downtown's neighbors)")
     downtown_neighbors = graph.neighbors("Downtown")
