@@ -7,6 +7,7 @@ class Entry:
         self.value = value
         self.next = next_entry
 
+
 class HashTable:
     """A hash table with string keys that uses separate chaining.
 
@@ -48,7 +49,7 @@ class HashTable:
     def load_factor(self):
         """Return the number of entries divided by the number of buckets."""
         return self._size / self.capacity
-    
+
     def _resize(self):
         """Double the number of buckets and put every entry back in."""
         # entries must be placed again because the bucket index depends on the capacity
@@ -59,23 +60,28 @@ class HashTable:
 
         for k, v in old_items:
             self.put(k, v)
-    
+
+    def _find(self, key):
+        """Return the entry for key, or None if key is not in the table."""
+        current = self.buckets[self._hash(key)]
+        while current is not None:
+            if current.key == key:
+                return current
+            current = current.next
+        return None
+
     def put(self, key, value):
         """Insert key, or update its value if the key already exists.
 
         Raises:
             TypeError: if key is not a string.
         """
-        self._validate_key(key)
+        entry = self._find(key)
+        if entry is not None:
+            entry.value = value
+            return
+
         index = self._hash(key)
-        current = self.buckets[index]
-
-        while current is not None:
-            if current.key == key:
-                current.value = value
-                return
-            current = current.next
-
         # a new key goes at the front of its chain
         self.buckets[index] = Entry(key, value, self.buckets[index])
         self._size += 1
@@ -85,16 +91,8 @@ class HashTable:
 
     def get(self, key, default=None):
         """Return the value stored for key, or default if key is absent."""
-        self._validate_key(key)
-        index = self._hash(key)
-        current = self.buckets[index]
-
-        while current is not None:
-            if current.key == key:
-                return current.value
-            current = current.next
-
-        return default
+        entry = self._find(key)
+        return default if entry is None else entry.value
 
     def remove(self, key):
         """Remove key and return its value.
@@ -125,34 +123,15 @@ class HashTable:
 
     def contains(self, key):
         """Return True if key is in the table."""
-        self._validate_key(key)
-        index = self._hash(key)
-        current = self.buckets[index]
-        while current is not None:
-            if current.key == key:
-                return True
-            current = current.next
-        return False
+        return self._find(key) is not None
 
     def keys(self):
         """Return a list of all keys."""
-        all_keys = []
-        for bucket in self.buckets:
-            current = bucket
-            while current is not None:
-                all_keys.append(current.key)
-                current = current.next
-        return all_keys
+        return [key for key, _ in self.items()]
 
     def values(self):
         """Return a list of all values, in the same order as keys()."""
-        all_values = []
-        for bucket in self.buckets:
-            current = bucket
-            while current is not None:
-                all_values.append(current.value)
-                current = current.next
-        return all_values
+        return [value for _, value in self.items()]
 
     def items(self):
         """Return a list of (key, value) tuples, in the same order as keys()."""

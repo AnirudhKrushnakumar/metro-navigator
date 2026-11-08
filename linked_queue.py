@@ -1,5 +1,6 @@
 from linked_list import LinkedList
 
+
 class Queue:
     """A first-in, first-out queue built on a LinkedList (front is the head, back is the tail)."""
 
@@ -49,6 +50,7 @@ class Queue:
             raise IndexError("Peek from empty queue")
         return self._list.head.value
 
+
 def board_passengers(names, seats_available):
     """Board riders in arrival order until the seats run out.
 
@@ -86,6 +88,7 @@ def board_passengers(names, seats_available):
 # def board_passengers(names, k):
 #     return hot_potato(names, k)
 
+
 def hot_potato(namelist, num):
     """Play the counting-out game on a queue of names.
 
@@ -102,7 +105,7 @@ def hot_potato(namelist, num):
         raise ValueError("Namelist must be a non-empty list or tuple")
     if not isinstance(num, int) or isinstance(num, bool) or num < 1:
         raise ValueError("Num must be an integer greater than or equal to 1")
-    
+
     queue = Queue()
     for name in namelist:
         queue.enqueue(name)

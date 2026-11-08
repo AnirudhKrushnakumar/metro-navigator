@@ -174,7 +174,11 @@ class Graph:
 
     def __str__(self):
         """Return an adjacency listing with one vertex per line."""
-        lines = []
+        if self.vertex_count() == 0:
+            return "(empty graph)"
+        text = ""
         for v in self._adj.keys():
-            lines.append(f"{v}: {', '.join(self.neighbors(v))}")
-        return "\n".join(lines)
+            if text:
+                text += "\n"
+            text += f"{v}: {', '.join(self.neighbors(v))}"
+        return text

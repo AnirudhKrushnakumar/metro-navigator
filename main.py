@@ -179,7 +179,6 @@ def main():
     overlap = airport_stops.intersection(beach_stops)
     print(f"Airport and Beach share (intersection):     {sorted(overlap.to_list())}")
 
-
     print_section("9. Bracket check (is_balanced)")
     for text in ["(Airport [Downtown] {Beach})", "(Airport [Downtown)]"]:
         print(f"{text!r} -> {is_balanced(text)}")

@@ -7,14 +7,15 @@ class MinHeap:
     def __init__(self):
         """Create an empty heap."""
         self._data = []
+        self._size = 0
 
     def __len__(self):
         """Return the number of pairs in the heap."""
-        return len(self._data)
+        return self._size
 
     def is_empty(self):
         """Return True if the heap has no pairs."""
-        return len(self._data) == 0
+        return self._size == 0
 
     def to_list(self):
         """Return a copy of the internal array, so changing it will not change the heap."""
@@ -85,6 +86,7 @@ class MinHeap:
         if isinstance(key, bool) or not isinstance(key, (int, float)):
             raise TypeError("Priority must be an int or float")
         self._data.append((key, value))
+        self._size += 1
         self._percolate_up(len(self._data) - 1)
 
     def push(self, key, value=None):
@@ -102,6 +104,7 @@ class MinHeap:
 
         root = self._data[0]
         last = self._data.pop()
+        self._size -= 1
 
         if not self.is_empty():
             # the last pair takes the root's place, then sifts down
@@ -156,6 +159,7 @@ class MinHeap:
             if isinstance(k, bool) or not isinstance(k, (int, float)):
                 raise TypeError("Priority must be an int or float")
             h._data.append((k, v))
+            h._size += 1
 
         # bottom-up: start at the last parent and sift each one down
         for i in range(len(h._data) // 2 - 1, -1, -1):

@@ -8,6 +8,7 @@ class TreeNode:
         self.left = None
         self.right = None
 
+
 class BST:
     """A binary search tree of int or string keys (keys cannot be mixed)."""
 
@@ -103,6 +104,7 @@ class BST:
     def inorder(self):
         """Return the keys in sorted order (left, node, right)."""
         result = []
+
         def _traverse(node):
             if node is not None:
                 _traverse(node.left)
@@ -114,6 +116,7 @@ class BST:
     def preorder(self):
         """Return the keys in preorder (node, left, right)."""
         result = []
+
         def _traverse(node):
             if node is not None:
                 result.append(node.key)
@@ -125,6 +128,7 @@ class BST:
     def postorder(self):
         """Return the keys in postorder (left, right, node)."""
         result = []
+
         def _traverse(node):
             if node is not None:
                 _traverse(node.left)
@@ -192,6 +196,7 @@ class BST:
         """Return the number of nodes on the longest root-to-leaf path (0 if empty)."""
         if self.root is None:
             return 0
+
         def _height(node):
             if node is None:
                 return 0
@@ -202,6 +207,7 @@ class BST:
         """Return the number of nodes that have no children."""
         if self.root is None:
             return 0
+
         def _count(node):
             if node is None:
                 return 0
@@ -216,6 +222,7 @@ class BST:
         Subtrees that cannot contain a match are skipped. Returns [] if min_key > max_key.
         """
         result = []
+
         def _range(node):
             if node is None:
                 return
@@ -232,6 +239,7 @@ class BST:
 
     def is_valid_bst(self):
         """Return True if every node stays within the bounds set by all its ancestors."""
+
         def _validate(node, low=None, high=None):
             if node is None:
                 return True
@@ -252,9 +260,10 @@ class BST:
             True if the key was removed, False if it was not in the tree.
         """
         self._validate_key(key)
-        deleted = [False]
+        deleted = False
 
         def _remove(node, key):
+            nonlocal deleted
             if node is None:
                 return None
 
@@ -263,7 +272,7 @@ class BST:
             elif key > node.key:
                 node.right = _remove(node.right, key)
             else:
-                deleted[0] = True
+                deleted = True
                 # zero or one child: the node is simply replaced by that child
                 if node.left is None:
                     self._size -= 1
@@ -285,4 +294,4 @@ class BST:
             return node
 
         self.root = _remove(self.root, key)
-        return deleted[0]
+        return deleted

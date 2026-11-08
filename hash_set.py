@@ -1,5 +1,6 @@
 from hash_table import HashTable
 
+
 class HashSet:
     """A set of unique strings, stored as the keys of a HashTable."""
 
@@ -60,14 +61,18 @@ class HashSet:
         """Return True if item is in the set."""
         return self._table.contains(item)
 
+    def _require_hashset(self, other):
+        """Raise TypeError if other is not a HashSet."""
+        if not isinstance(other, HashSet):
+            raise TypeError("Operand must be a HashSet")
+
     def union(self, other):
         """Return a new HashSet with the items that are in either set.
 
         Raises:
             TypeError: if other is not a HashSet.
         """
-        if not isinstance(other, HashSet):
-            raise TypeError("Operand must be a HashSet")
+        self._require_hashset(other)
         result = HashSet()
         for item in self._table.keys():
             result._table.put(item, True)
@@ -81,8 +86,7 @@ class HashSet:
         Raises:
             TypeError: if other is not a HashSet.
         """
-        if not isinstance(other, HashSet):
-            raise TypeError("Operand must be a HashSet")
+        self._require_hashset(other)
         result = HashSet()
         other_table = other._table
         for item in self._table.keys():
@@ -96,8 +100,7 @@ class HashSet:
         Raises:
             TypeError: if other is not a HashSet.
         """
-        if not isinstance(other, HashSet):
-            raise TypeError("Operand must be a HashSet")
+        self._require_hashset(other)
         result = HashSet()
         other_table = other._table
         for item in self._table.keys():
@@ -111,8 +114,7 @@ class HashSet:
         Raises:
             TypeError: if other is not a HashSet.
         """
-        if not isinstance(other, HashSet):
-            raise TypeError("Operand must be a HashSet")
+        self._require_hashset(other)
         result = HashSet()
         other_table = other._table
         for item in self._table.keys():
@@ -129,8 +131,7 @@ class HashSet:
         Raises:
             TypeError: if other is not a HashSet.
         """
-        if not isinstance(other, HashSet):
-            raise TypeError("Operand must be a HashSet")
+        self._require_hashset(other)
         other_table = other._table
         for item in self._table.keys():
             if not other_table.contains(item):

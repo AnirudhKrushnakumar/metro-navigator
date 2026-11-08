@@ -1,10 +1,11 @@
 class Node:
     """A single node in a singly linked list."""
 
-    def __init__(self, value, next_node = None):
+    def __init__(self, value, next_node=None):
         """Create a node holding value that points to next_node (or None)."""
         self.value = value
         self.next = next_node
+
 
 class LinkedList:
     """A singly linked list that keeps track of its own head, tail and size."""
@@ -33,18 +34,18 @@ class LinkedList:
             self.tail.next = new_node
             self.tail = new_node
         self._size += 1
-    
+
     def prepend(self, value):
         """Add value to the front of the list."""
-        new_node = Node(value, next_node = self.head)
+        new_node = Node(value, next_node=self.head)
         self.head = new_node
-        
+
         # the first node added to an empty list is also the tail
         if self.tail is None:
             self.tail = new_node
 
         self._size += 1
-    
+
     def _get_node(self, index):
         """Return the node at index (the caller must check the index first)."""
         current = self.head
@@ -63,7 +64,7 @@ class LinkedList:
 
         target_node = self._get_node(index)
         return target_node.value
-    
+
     def remove_at(self, index):
         """Remove the node at index and return its value.
 
@@ -90,7 +91,7 @@ class LinkedList:
         prev = self._get_node(index - 1)
         target = prev.next
         assert target is not None
-        
+
         removed_val = target.value
         prev.next = target.next
 
@@ -188,9 +189,9 @@ class LinkedList:
         if self.is_empty():
             return "None"
 
-        values = []
+        result = ""
         current = self.head
         while current is not None:
-            values.append(str(current.value))
+            result += str(current.value) + " -> "
             current = current.next
-        return " -> ".join(values) + " -> None"
+        return result + "None"
