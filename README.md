@@ -141,8 +141,6 @@ print(len(a.union(b)))               # 3
 
 None that I know of. Every unit test passes, and `main.py` runs without errors.
 
-One thing worth knowing: the project packet and the rubric describe `board_passengers` differently. The packet says it's the counting-out game, and the rubric says it's a boarding simulation with a seat count. I followed the rubric for `board_passengers` and kept the counting-out version as `hot_potato`, which is also the name the unit tests use.
-
 ## Unique Design Choice
 
 `LinkedList` keeps a `tail` pointer. Without it, adding to the end would mean walking the whole list to find the last node. With it, `append` jumps straight there:
@@ -163,4 +161,4 @@ The Queue depends on this. Adding at the tail and removing at the head means nei
 
 ## Reflection
 
-The slowest bug to find was in `Graph.remove_vertex`. My first version checked every vertex for an edge to the one being removed, and the 1,000-vertex stress test ran too slowly. Switching it to only look at the vertex's neighbors fixed it. I also caught a couple of banned tools late, a built-in `hash()` in the HashTable and a dictionary inside `is_balanced`, and replaced them with my own hash function and plain strings. The last open question was the `board_passengers` mix-up described above.
+The slowest bug to find was in `Graph.remove_vertex`. My first version checked every vertex for an edge to the one being removed, and the 1,000-vertex stress test ran too slowly. Switching it to only look at the vertex's neighbors fixed it. I also caught a couple of banned tools late, a built-in `hash()` in the HashTable and a dictionary inside `is_balanced`, and replaced them with my own hash function and plain strings.

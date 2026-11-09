@@ -82,12 +82,6 @@ def board_passengers(names, seats_available):
     waiting = queue.to_list()
     return boarded, waiting
 
-# Guide Version
-# 1. Delete the rubric board_passengers function above.
-# 2. Uncomment the two lines below.
-# def board_passengers(names, k):
-#     return hot_potato(names, k)
-
 
 def hot_potato(namelist, num):
     """Play the counting-out game on a queue of names.
